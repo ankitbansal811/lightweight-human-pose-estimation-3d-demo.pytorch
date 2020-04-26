@@ -7,6 +7,9 @@ from openvino.inference_engine import IENetwork, IECore
 class InferenceEngineOpenVINO:
     def __init__(self, net_model_xml_path, device):
         self.device = device
+        if os.path.splitext(net_model_xml_path)[1] != ".xml":
+            net_model_xml_path = os.path.splitext(net_model_xml_path)[0] + '.xml'
+            print("XML path needed for inference. using {} instead".format(net_model_xml_path))
 
         net_model_bin_path = os.path.splitext(net_model_xml_path)[0] + '.bin'
         self.net = IENetwork(model=net_model_xml_path, weights=net_model_bin_path)
